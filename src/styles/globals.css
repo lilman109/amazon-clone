@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer component {
+@layer components {
 	.link {
-		@apply cursor-pointer;
+		@apply cursor-pointer hover:underline;
 	}
 }

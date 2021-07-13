@@ -1,3 +1,4 @@
+import { bindActionCreators } from '@reduxjs/toolkit';
 import Head from 'next/head';
 import { Header } from '../components/index';
 

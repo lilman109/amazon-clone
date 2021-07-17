@@ -1,8 +1,8 @@
 import { bindActionCreators } from '@reduxjs/toolkit';
 import Head from 'next/head';
-import { Header, Banner } from '../components/';
+import { Header, Banner, ProductFeed } from '../components/';
 
-export default function Home() {
+const Home = ({ products }) => {
 	return (
 		<div className='bg-gray-100'>
 			<Head>
@@ -13,7 +13,22 @@ export default function Home() {
 			<main>
 				{/* banner */}
 				<Banner />
+				<ProductFeed products={products} />
 			</main>
 		</div>
 	);
-}
+};
+
+export const getServerSideProps = async (context) => {
+	const products = await fetch(
+		'https://fakestoreapi.com/products'
+	).then((res) => res.json());
+
+	return {
+		props: {
+			products: products,
+		},
+	};
+};
+
+export default Home;

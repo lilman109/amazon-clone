@@ -38,7 +38,7 @@ const Checkout = () => {
 							} = item;
 							return (
 								<CheckoutProduct
-									key={id}
+									key={index}
 									id={id}
 									title={title}
 									price={price}

@@ -2,7 +2,11 @@ import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 import { StarIcon } from '@heroicons/react/solid';
 import Currency from 'react-currency-formatter';
-import { addToBasket, removeFromBasket } from '../slices/basketSlice';
+import {
+	addToBasket,
+	removeFromBasket,
+	clearFromBasket,
+} from '../slices/basketSlice';
 
 export const CheckoutProduct = ({
 	id,
@@ -13,6 +17,7 @@ export const CheckoutProduct = ({
 	category,
 	image,
 	isPrime,
+	quantity,
 }) => {
 	const dispatch = useDispatch();
 
@@ -35,6 +40,10 @@ export const CheckoutProduct = ({
 		dispatch(removeFromBasket({ id }));
 	};
 
+	const clearItemFromBasket = () => {
+		dispatch(clearFromBasket({ id }));
+	};
+
 	return (
 		<div className='grid grid-cols-5'>
 			<Image src={image} height={200} width={200} objectFit='contain' />
@@ -48,7 +57,7 @@ export const CheckoutProduct = ({
 						})}
 				</div>
 				<p className='text-xs my-2 line-clamp-3'>{description}</p>
-				<Currency quantity={price} />
+				<Currency quantity={price * quantity} />
 				{isPrime && (
 					<div className='flex items-center space-x-2'>
 						<img
@@ -63,11 +72,17 @@ export const CheckoutProduct = ({
 			</div>
 
 			<div className='flex flex-col space-y-2 my-auto justify-self-end'>
-				<button className='button' onClick={addItemToBasket}>
-					Add to Basket
-				</button>
-				<button className='button' onClick={removeItemFromBasket}>
-					Remove from Basket
+				<div className='flex items-center'>
+					<button onClick={removeItemFromBasket} className='button w-1/3'>
+						-
+					</button>
+					<p className='w-1/3 text-center'>{quantity}</p>
+					<button onClick={addItemToBasket} className='button w-1/3'>
+						+
+					</button>
+				</div>
+				<button className='button' onClick={clearItemFromBasket}>
+					Clear from Basket
 				</button>
 			</div>
 		</div>

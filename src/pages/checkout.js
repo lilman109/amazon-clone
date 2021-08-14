@@ -1,12 +1,17 @@
 import Image from 'next/image';
 import { Header, CheckoutProduct } from '../components/index';
 import { useSelector } from 'react-redux';
-import { selectItems, selectTotalPrice } from '../slices/basketSlice';
+import {
+	selectItems,
+	selectTotalPrice,
+	seletTotalItemsCount,
+} from '../slices/basketSlice';
 import { useSession } from 'next-auth/client';
 import Currency from 'react-currency-formatter';
 
 const Checkout = () => {
 	const items = useSelector(selectItems);
+	const totalItemsCount = useSelector(seletTotalItemsCount);
 	const totalPrice = useSelector(selectTotalPrice);
 	const [session] = useSession();
 
@@ -39,6 +44,7 @@ const Checkout = () => {
 								category,
 								image,
 								isPrime,
+								quantity,
 							} = item;
 							return (
 								<CheckoutProduct
@@ -51,6 +57,7 @@ const Checkout = () => {
 									category={category}
 									image={image}
 									isPrime={isPrime}
+									quantity={quantity}
 								/>
 							);
 						})}
@@ -58,12 +65,12 @@ const Checkout = () => {
 				</div>
 
 				{/* right side */}
-				{items.length > 0 ? (
+				{totalItemsCount > 0 ? (
 					<div className='flex flex-col bg-white p-10 shadow-md'>
 						{items.length > 0 && (
 							<>
 								<h2 className='whitespace-nowrap'>
-									Subtotal ({items.length} items):{' '}
+									Subtotal ({totalItemsCount} items):{' '}
 									<span className='font-bold'>
 										<Currency quantity={totalPrice} />
 									</span>
